@@ -1,0 +1,42 @@
+# $schema=https://www.schemastore.org/github-action.json
+name: "Create Release"
+description: "Creates a draft GitHub Release ready for you to upload artifacts to."
+
+inputs:
+  tag-name:
+    description: "The tag name to use for the release"
+    required: true
+  release-name:
+    description: "The name of the release"
+    required: false
+    default: ""
+  github-api-token:
+    description: "The GitHub API token to use for authentication"
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  release-id:
+    description: "The ID of the created Release"
+    value: ${{ steps.create-release.outputs.release-id }}
+  upload-url:
+    description: "The URL to upload assets to"
+    value: ${{ steps.create-release.outputs.upload-url }}
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: "Create Release"
+      id: create-release
+      shell: bash
+      env:
+        TAG_NAME: ${{ inputs.tag-name }}
+        RELEASE_NAME: ${{ inputs.release-name }}
+        GITHUB_API_TOKEN: ${{ inputs.github-api-token }}
+      run: |
+        set -euo pipefail
+        
+        SCRIPT="${GITHUB_ACTION_PATH}/create-release.sh"
+        chmod +x "${SCRIPT}"
+        "${SCRIPT}"
