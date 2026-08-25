@@ -1,22 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:best-practices"
-  ],
-  "semanticCommits": "enabled",
-  "packageRules": [
-    {
-      "matchFileNames": [
-        ".github/workflows/**"
-      ],
-      "semanticCommitType": "ci"
-    },
-    {
-      "matchFileNames": [
-        "action.yml",
-        "action.yaml"
-      ],
-      "semanticCommitType": "fix"
-    }
+    "github>rbrownwsws/renovate-config:actions"
   ]
 }
